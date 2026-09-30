@@ -1,0 +1,142 @@
+/* ============================================================
+   ISN'T SHE LOVELY — Digital Circus Terminal
+   Paleta tomada de la portada: índigo profundo, violeta
+   eléctrico, amarillo luciérnaga, blanco lunar.
+   ============================================================ */
+:root{
+  --bg0:#0d0d3f;
+  --bg1:#1d1d9e;
+  --bg2:#3434e8;
+  --violet:#6a6aff;
+  --moon:#e9e9ff;
+  --gold:#ffe66d;
+  --circus-red:#ff4d6d;
+  --term-green:#7dff9e;
+  --mono:"Courier New",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  background:
+    radial-gradient(1200px 700px at 70% -10%, #3d3df5 0%, transparent 60%),
+    radial-gradient(900px 600px at 10% 110%, #4b1fa8 0%, transparent 55%),
+    linear-gradient(180deg, var(--bg1) 0%, var(--bg0) 100%);
+  color:var(--moon);
+  font-family:var(--mono);
+  overflow:hidden;
+  min-height:100vh;
+}
+.hidden{display:none !important}
+
+/* ---------- capas globales ---------- */
+#fireflies{position:fixed;inset:0;z-index:0;pointer-events:none}
+.crt{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.5;
+  background:repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 1px, transparent 1px 3px);}
+.vignette{position:fixed;inset:0;z-index:61;pointer-events:none;
+  background:radial-gradient(ellipse at center, transparent 55%, rgba(5,5,30,.75) 100%);}
+#flash{position:fixed;inset:0;background:#fff;opacity:0;z-index:100;pointer-events:none}
+#flash.go{animation:flashShot .55s ease-out}
+@keyframes flashShot{0%{opacity:0}8%{opacity:1}100%{opacity:0}}
+
+/* ---------- BOOT / TERMINAL ---------- */
+#boot{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:20px}
+.terminal{width:min(680px,94vw);background:rgba(8,8,35,.88);
+  border:2px solid var(--violet);border-radius:10px;
+  box-shadow:0 0 0 1px #000, 0 0 32px rgba(106,106,255,.55), 0 0 90px rgba(52,52,232,.35);
+  overflow:hidden;animation:termIn .6s ease-out}
+@keyframes termIn{from{transform:translateY(16px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+.term-bar{display:flex;align-items:center;gap:8px;background:#151552;
+  border-bottom:1px solid var(--violet);padding:8px 12px}
+.dot{width:12px;height:12px;border-radius:50%;display:inline-block}
+.dot.r{background:#ff5f57}.dot.y{background:var(--gold)}.dot.g{background:var(--term-green)}
+.term-title{margin-left:8px;font-size:12px;letter-spacing:1px;color:var(--gold);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.term-body{padding:18px 20px 22px;min-height:300px}
+.cover-wrap{position:relative;border:1px solid var(--violet);border-radius:6px;
+  overflow:hidden;margin-bottom:16px;background:linear-gradient(135deg,#2323b8,#120f4d);min-height:120px}
+.cover-wrap img{display:block;width:100%;max-height:300px;object-fit:cover;
+  filter:saturate(1.15) contrast(1.05)}
+.cover-glow{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,transparent 60%,rgba(13,13,63,.7));}
+#bootlog{font-size:14px;line-height:1.75;min-height:120px;white-space:pre-wrap}
+#bootlog .ok{color:var(--term-green)}
+#bootlog .warn{color:var(--gold)}
+#prompt .big{font-size:clamp(22px,5vw,34px);color:#fff;letter-spacing:1px;
+  text-shadow:0 0 12px var(--violet),0 0 34px var(--bg2);margin:10px 0 4px}
+.caret{animation:blink 1s steps(1) infinite;color:var(--gold)}
+@keyframes blink{50%{opacity:0}}
+.dim{color:#9d9de8;font-size:13px}
+.choices{display:flex;gap:16px;margin:18px 0 10px;flex-wrap:wrap}
+.tbtn{font-family:var(--mono);font-size:20px;font-weight:bold;letter-spacing:2px;
+  padding:12px 26px;background:#0a0a28;color:var(--term-green);cursor:pointer;
+  border:2px solid var(--term-green);border-radius:4px;
+  text-shadow:0 0 8px currentColor;transition:transform .08s, box-shadow .12s, background .12s}
+.tbtn.yes:hover,.tbtn.yes:focus-visible{background:var(--term-green);color:#06130a;
+  box-shadow:0 0 18px var(--term-green),0 0 46px rgba(125,255,158,.5);
+  transform:translateY(-2px) scale(1.04);outline:none}
+.tbtn.no{color:var(--circus-red);border-color:var(--circus-red)}
+.tbtn.no:hover,.tbtn.no:focus-visible{background:var(--circus-red);color:#1c0208;
+  box-shadow:0 0 18px var(--circus-red);transform:translateY(-2px) rotate(-1deg);outline:none}
+.tbtn:active{transform:scale(.96)}
+.noms{color:var(--gold);margin-top:6px;animation:shake .35s}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.hint{margin-top:10px;font-size:12px;color:#7777c9}
+.foot{margin-top:14px;font-size:12px;color:#8b8bff;z-index:10}
+
+/* ---------- STAGE ---------- */
+#stage{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:flex-start;padding:14px 12px 30px}
+#hud{width:min(900px,96vw);display:flex;justify-content:space-between;align-items:center;
+  font-size:13px;letter-spacing:1px;color:var(--gold);margin-top:6px}
+#rec i{display:inline-block;width:10px;height:10px;border-radius:50%;background:#ff2e2e;
+  margin-right:6px;animation:blink 1.2s steps(1) infinite;box-shadow:0 0 10px #ff2e2e}
+#counter{color:var(--moon)}
+#progress{width:min(900px,96vw);height:8px;border:1px solid var(--violet);
+  border-radius:99px;margin:10px 0 6px;background:rgba(10,10,40,.7);overflow:hidden}
+#bar{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),#fff,var(--violet));
+  box-shadow:0 0 12px var(--gold);transition:width .5s linear}
+
+/* dedicatoria */
+#dedication{text-align:center;margin:9vh auto 0;max-width:900px;padding:0 16px;
+  animation:dedIn .8s ease-out}
+@keyframes dedIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+#dedication .small{color:var(--term-green);font-size:14px;margin-bottom:12px}
+#dedText{font-size:clamp(22px,4.6vw,44px);line-height:1.45;color:#fff;
+  text-shadow:0 0 14px var(--violet),0 0 50px var(--bg2),0 2px 0 #000}
+#dedText::after{content:"▌";color:var(--gold);animation:blink .8s steps(1) infinite}
+
+/* pila de polaroids — collage desordenado por toda la pantalla */
+#pile{position:relative;width:min(1200px,98vw);height:68vh;margin-top:2vh}
+.polaroid{position:absolute;background:#fdfdf8;color:#222;
+  padding:12px 12px 36px;border-radius:4px;width:min(405px,78vw);
+  box-shadow:0 18px 50px rgba(0,0,0,.65),0 0 24px rgba(255,255,255,.12);
+  animation:throwIn .7s cubic-bezier(.2,1.4,.4,1) forwards}
+.polaroid img{display:block;width:100%;height:300px;object-fit:cover;border-radius:2px;
+  background:#111;filter:sepia(.12) contrast(1.03)}
+.polaroid figcaption{font-size:12px;text-align:center;margin-top:8px;color:#555;letter-spacing:1px}
+.polaroid .tape{position:absolute;top:-12px;left:50%;transform:translateX(-50%) rotate(-3deg);
+  width:90px;height:24px;background:rgba(255,230,109,.75);border:1px solid rgba(0,0,0,.08)}
+@keyframes throwIn{
+  0%{transform:translate(-50%,-50%) translateY(-60vh) scale(1.6) rotate(8deg);opacity:0;filter:brightness(3)}
+  35%{opacity:1;filter:brightness(2)}
+  100%{transform:translate(-50%,-50%) rotate(var(--tilt,0deg)) scale(1);filter:brightness(1)}
+}
+.polaroid.landed{transform:translate(-50%,-50%) rotate(var(--tilt,0deg))}
+#caption{margin-top:8px;color:var(--gold);font-size:14px;letter-spacing:1px;
+  text-shadow:0 0 10px rgba(255,230,109,.6);min-height:20px}
+
+/* final */
+#finale{text-align:center;margin-top:6vh;background:rgba(8,8,35,.85);
+  border:2px solid var(--gold);border-radius:10px;padding:26px 30px;max-width:520px;
+  box-shadow:0 0 30px rgba(255,230,109,.35);animation:dedIn .8s}
+#finale h2{color:var(--gold);font-size:30px;margin-bottom:10px;
+  text-shadow:0 0 16px rgba(255,230,109,.7)}
+#finale p{margin:6px 0}
+#finale .tbtn{margin-top:16px;font-size:16px}
+
+@media (max-width:600px){
+  .polaroid{width:min(320px,82vw)}
+  .polaroid img{height:230px}
+  #pile{height:64vh}
+}

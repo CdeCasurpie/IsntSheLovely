@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ISN'T SHE LOVELY — iniciar recuerdos?</title>
+<meta name="description" content="Una cinta de recuerdos para mi buba. Terminal Digital Circus + Isn't She Lovely." />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- destello blanco de cámara (foto inicial + cada foto) -->
+<div id="flash" aria-hidden="true"></div>
+
+<!-- viñeta + scanlines CRT globales -->
+<div class="crt" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<!-- luciérnagas -->
+<canvas id="fireflies"></canvas>
+
+<!-- ============ PANTALLA 1: TERMINAL BOOT ============ -->
+<section id="boot">
+  <div class="terminal">
+    <div class="term-bar">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="term-title">CIRCUS_OS v2.0 — cinta_de_recuerdos.exe</span>
+    </div>
+
+    <div class="term-body">
+      <div class="cover-wrap">
+        <!-- Guarda la imagen del mensaje como assets/img/portada.jpg para verla aquí.
+             Si no existe, se oculta sola y queda el fondo índigo + luciérnagas. -->
+        <img id="cover" src="assets/img/portada.jpg" alt="Pomni y Jax mirando las estrellas"
+             onerror="this.style.display='none'" />
+        <div class="cover-glow" aria-hidden="true"></div>
+      </div>
+
+      <div id="bootlog" aria-live="polite"></div>
+
+      <div id="prompt" class="hidden">
+        <p class="big">&gt; INICIAR RECUERDOS<span class="caret">_</span></p>
+        <p class="dim">[ archivo de audio detectado: isnt-she-lovely.mp3 — 3:20 ]</p>
+        <p class="dim">[ fotografías detectadas: <span id="photoCount">49</span> ]</p>
+        <div class="choices">
+          <button id="btnYes" class="tbtn yes">[ YES ]</button>
+          <button id="btnNo" class="tbtn no">[ NO ]</button>
+        </div>
+        <p id="noMsg" class="noms hidden">&gt; ERROR: opción inválida. tu buba te obliga a decir YES :D</p>
+        <p class="hint">— pasa el cursor sobre las opciones, suenan retro —</p>
+      </div>
+    </div>
+  </div>
+  <p class="foot">haz clic en YES para comenzar · usa 🔊 con volumen</p>
+</section>
+
+<!-- ============ PANTALLA 2: ESCENARIO DE RECUERDOS ============ -->
+<section id="stage" class="hidden">
+  <header id="hud">
+    <span id="rec"><i></i> REC ● isnt-she-lovely.mp3</span>
+    <span id="counter">MEMORIA 00/49</span>
+  </header>
+
+  <div id="progress"><div id="bar"></div></div>
+
+  <!-- dedicatoria 0 → 7 s -->
+  <div id="dedication" class="hidden">
+    <p class="small">&gt; reproduciendo…</p>
+    <h1 id="dedText"></h1>
+  </div>
+
+  <!-- pila de polaroids -->
+  <div id="pile" aria-live="polite"></div>
+
+  <p id="caption" class="hidden"></p>
+
+  <!-- final -->
+  <div id="finale" class="hidden">
+    <h2>fin de la cinta ♥</h2>
+    <p>para mi buba: la más guapa, la más querida, la más memorable.</p>
+    <p class="dim">— isn't she lovely, isn't she wonderful —</p>
+    <button id="btnAgain" class="tbtn yes">[ ↻ REVIVIR RECUERDOS ]</button>
+  </div>
+
+  <audio id="song" src="assets/audio/isnt-she-lovely.mp3" preload="auto"></audio>
+</section>
+
+<script src="js/app.js"></script>
+</body>
+</html>
