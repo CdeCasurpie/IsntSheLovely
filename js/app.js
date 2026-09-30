@@ -60,9 +60,11 @@
   let bugs = [];
   function sky() {
     cv.width = innerWidth; cv.height = innerHeight;
-    bugs = Array.from({ length: Math.min(70, innerWidth / 18) }, () => ({
+    cv.style.opacity = ".45";
+    // pocas y tenues: noche casi negra al inicio
+    bugs = Array.from({ length: Math.min(36, Math.floor(innerWidth / 40)) }, () => ({
       x: Math.random() * cv.width, y: Math.random() * cv.height,
-      r: 1 + Math.random() * 2.4, s: .2 + Math.random() * .6,
+      r: 0.8 + Math.random() * 1.6, s: .15 + Math.random() * .4,
       p: Math.random() * Math.PI * 2, a: Math.random() * Math.PI * 2,
     }));
   }
@@ -73,13 +75,13 @@
       b.x += Math.cos(b.a) * b.s; b.y += Math.sin(b.a * 1.3) * b.s * .6;
       if (b.x < 0) b.x = cv.width; if (b.x > cv.width) b.x = 0;
       if (b.y < 0) b.y = cv.height; if (b.y > cv.height) b.y = 0;
-      const glow = .35 + .65 * Math.abs(Math.sin(time * 1.6 + b.p));
-      const g = cx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r * 5);
-      g.addColorStop(0, `rgba(255,230,109,${.9 * glow})`);
+      const glow = .25 + .45 * Math.abs(Math.sin(time * 1.2 + b.p));
+      const g = cx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r * 4);
+      g.addColorStop(0, `rgba(255,230,109,${.5 * glow})`);
       g.addColorStop(1, "rgba(255,230,109,0)");
       cx.fillStyle = g;
-      cx.beginPath(); cx.arc(b.x, b.y, b.r * 5, 0, 7); cx.fill();
-      cx.fillStyle = `rgba(255,255,255,${glow})`;
+      cx.beginPath(); cx.arc(b.x, b.y, b.r * 4, 0, 7); cx.fill();
+      cx.fillStyle = `rgba(255,255,255,${.5 * glow})`;
       cx.beginPath(); cx.arc(b.x, b.y, b.r, 0, 7); cx.fill();
     }
     requestAnimationFrame(loop);
@@ -169,9 +171,14 @@
       }, (FIRST_PHOTO_AT + i * PHOTO_EVERY) * 1000);
     }
 
-    // 3) barra de progreso ligada a la canción
+    // 3) progreso: barra + la noche se va encendiendo con la música
+    const dawn = $("dawn");
     song.addEventListener("timeupdate", () => {
-      if (song.duration) bar.style.width = (song.currentTime / song.duration * 100).toFixed(2) + "%";
+      if (!song.duration) return;
+      const p = song.currentTime / song.duration;
+      bar.style.width = (p * 100).toFixed(2) + "%";
+      dawn.style.opacity = (p * 0.85).toFixed(3);       // de negro a cielo nocturno
+      cv.style.opacity = (0.45 + p * 0.55).toFixed(3);  // luciérnagas despiertan
     });
     song.addEventListener("ended", showFinale);
     // por si la canción dura menos que las fotos: el final llega igual al acabarse la pila
@@ -228,6 +235,8 @@
     finale.classList.remove("hidden");
     counter.textContent = `MEMORIA ${String(photos.length || 49).padStart(2, "0")}/${String(photos.length || 49).padStart(2, "0")} ♥`;
     bar.style.width = "100%";
+    $("dawn").style.opacity = "1";
+    cv.style.opacity = "1";
     doFlash(); sndYes();
     finale.scrollIntoView({ behavior: "smooth", block: "center" });
   }
